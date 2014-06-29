@@ -1,0 +1,30 @@
+#!/ffp/bin/sh
+# retrieve dns-325 internal temperature
+# for internal, disk1 and disk2
+#
+# 28/06/2014, V1.0 - Creation by N. Bernaerts 
+
+# read temperature for $1
+case $1 in
+  # read case internal temperature
+  internal)
+    echo `temperature g 0 | sed 's/^.* = \([0-9]*\).*$/\1/g'`
+    ;;
+
+  # read disk1 (/dev/sda) temperature
+  disk1)
+    echo `smartctl -A -d sat /dev/sda | grep 194 | sed 's/^.*- *\([0-9]*\).*$/\1/g'`
+    ;;            
+
+  # read disk2 (/dev/sdb) temperature
+  disk2)       
+    echo `smartctl -A -d sat /dev/sdb | grep 194 | sed 's/^.*- *\([0-9]*\).*$/\1/g'`
+    ;;
+
+  # default : nothing to do
+  *)              
+esac 
+
+# end
+exit 0
+
