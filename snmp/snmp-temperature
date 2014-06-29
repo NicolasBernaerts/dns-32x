@@ -1,8 +1,15 @@
 #!/ffp/bin/sh
-# retrieve dns-325 internal temperature
+# ----------------------------------------------
+# Retrieve dns-325 temperature sensor values
 # for internal, disk1 and disk2
 #
+# Used by http://bernaerts.dyndns.org/nas/314-dns325-ffp7-snmp-supervise-temperature-case-hdd
+#
+# Parameters :
+#   $1 - sensor type (internal, disk1 or disk2)
+#
 # 28/06/2014, V1.0 - Creation by N. Bernaerts 
+# ----------------------------------------------
 
 # read temperature for $1
 case $1 in
