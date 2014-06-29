@@ -3,7 +3,7 @@
 # Munin node startup script
 #
 # Installation instructions are available at
-# http://
+# http://bernaerts.dyndns.org/nas/
 #
 # History :
 # 26/06/2014, V1.0 - Creation by N. Bernaerts

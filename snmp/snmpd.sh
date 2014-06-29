@@ -1,4 +1,12 @@
 #!/ffp/bin/sh
+#
+# SNMP agent startup script
+#
+# Installation instructions are available at
+# http://bernaerts.dyndns.org/nas/313-dns325-ffp7-supervise-snmp-agent
+#
+# History :
+#  25/06/2014, V1.0 - Creation by N. Bernaerts
 
 # PROVIDE: snmpd
 # REQUIRE: LOGIN
