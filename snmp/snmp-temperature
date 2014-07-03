@@ -20,12 +20,12 @@ case $1 in
 
   # read disk1 (/dev/sda) temperature
   disk1)
-    echo `smartctl -A -d sat /dev/sda | grep 194 | sed 's/^.*- *\([0-9]*\).*$/\1/g'`
+    echo `smartctl -A -d sat /dev/sda | grep "^194.*" | sed 's/^.*- *\([0-9]*\).*$/\1/g'`
     ;;            
 
   # read disk2 (/dev/sdb) temperature
   disk2)       
-    echo `smartctl -A -d sat /dev/sdb | grep 194 | sed 's/^.*- *\([0-9]*\).*$/\1/g'`
+    echo `smartctl -A -d sat /dev/sdb | grep "^194.*" | sed 's/^.*- *\([0-9]*\).*$/\1/g'`
     ;;
 
   # default : nothing to do

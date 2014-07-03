@@ -1,0 +1,36 @@
+#!/ffp/bin/sh
+# ----------------------------------------------
+# Overload original fanspeed command
+# to log speed change in /var/log/user.log
+# in the same way as fan_control command
+#
+# Used to supervise fan speed in
+# http://bernaerts.dyndns.org/nas/314-dns325-ffp7-snmp-supervise-temperature-case-hdd
+#
+# Parameters :
+#   $1 - fanspeed original parameter (h, l, s or g)
+#
+# 30/06/2014, V1.0 - Creation by N. Bernaerts 
+# ----------------------------------------------
+
+# generate speed to log
+case $1 in 
+  h) LOG_SPEED="HIGH";;
+  l) LOG_SPEED="LOW";; 
+  s) LOG_SPEED="STOP";; 
+  *) LOG_SPEED="";; 
+esac
+
+# if a speed change has to be logged
+if [ "$LOG_SPEED" != "" ]; then
+  # generate log data
+  LOG_TIME=`date +"%b %d %H:%M:%S"`
+  LOG_HOST=`hostname`
+
+  # log action
+  echo "$LOG_TIME $LOG_HOST fanspeed: Set Fan Speed To \"$LOG_SPEED\"." >> /var/log/user.log
+fi
+
+# call original fanspeed command
+/usr/sbin/fanspeed $1
+
