@@ -36,3 +36,6 @@ else
     *)    echo $LEVEL_STOP ;;
   esac
 fi
+
+# end
+exit 0

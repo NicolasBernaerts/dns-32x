@@ -1,0 +1,29 @@
+#!/ffp/bin/sh
+# ----------------------------------------------
+# Retrieve dns-325 disk information
+#
+# Used by http://bernaerts.dyndns.org/nas/314-dns325-ffp7-snmp-supervise-temperature-case-hdd
+#
+# Parameters : 
+#   $1 - disk reference (disk1 or disk2)
+#
+# 05/07/2014, V1.0 - Creation by N. Bernaerts 
+# ----------------------------------------------
+
+# select device according to parameter
+[ "$1" = "disk1" ] && DISK="/dev/sda"
+[ "$1" = "disk2" ] && DISK="/dev/sdb"
+
+# get disk information thru smartctl
+DISK_MODEL=`smartctl -i -d sat $DISK | grep "^Device Model" | sed 's/^.*:[ ]*\(.*\)$/\1/'`
+DISK_SERIAL=`smartctl -i -d sat $DISK | grep "^Serial Number" | sed 's/^.*:[ ]*\(.*\)$/\1/'`
+DISK_SIZE=`smartctl -i -d sat $DISK | grep "^User Capacity" | sed 's/^.*:[ ]*\(.*\)$/\1/'`
+
+# generate information string
+DISK_INFO="model $DISK_MODEL, s/n $DISK_SERIAL, capacity $DISK_SIZE" 
+
+# print result
+echo "$DISK_INFO"
+
+# end
+exit 0
