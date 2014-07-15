@@ -8,12 +8,13 @@
 #
 # 30/06/2014, V1.0 - Creation by N. Bernaerts 
 # 02/07/2014, V1.1 - Deal with switch to auto mode
+# 14/07/2014, V1.2 - Change fan speed to 0..2
 # ----------------------------------------------
 
 # define display value for 3 states (stop, low & high)
-LEVEL_STOP="20"
-LEVEL_LOW="22"
-LEVEL_HIGH="24"
+LEVEL_STOP="0"
+LEVEL_LOW="1"
+LEVEL_HIGH="2"
 
 # retrieve fan status from fanspeed command
 FAN_SPEED=`fanspeed g`
@@ -29,13 +30,6 @@ else
   # retrieve last fan speed change in /var/log/user.log
   LOG_SPEED=`cat /var/log/user.log | grep "Set Fan Speed" | tail -n 1 | sed 's/^.*"\([^"]*\)".*$/\1/g' | tr '[:upper:]' '[:lower:]'`
 
-  # convert literal state to numerical value (off=20, low=22, high=24)
-  case $LOG_SPEED in
-    high) echo $LEVEL_HIGH ;;
-    low)  echo $LEVEL_LOW  ;;
-    *)    echo $LEVEL_STOP ;;
-  esac
+  # return the value
+  echo $LOG_SPEED
 fi
-
-# end
-exit 0
