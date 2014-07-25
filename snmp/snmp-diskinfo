@@ -4,7 +4,8 @@
 #
 # Used by http://bernaerts.dyndns.org/nas/314-dns325-ffp7-snmp-supervise-temperature-case-hdd
 #
-# Needs smartmontools package to be installed
+# Depends on packages : 
+#   * smartmontools
 #
 # Parameters : 
 #   $1 - disk reference (disk1 or disk2)
