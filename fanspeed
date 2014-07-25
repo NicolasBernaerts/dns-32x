@@ -8,16 +8,17 @@
 # http://bernaerts.dyndns.org/nas/314-dns325-ffp7-snmp-supervise-temperature-case-hdd
 #
 # Parameters :
-#   $1 - fanspeed original parameter (h, l, s or g)
+#   $1 - fanspeed original parameter (h, high, l, low, s, stop or g)
 #
-# 30/06/2014, V1.0 - Creation by N. Bernaerts 
+# 30/06/2014, V1.0 - Creation by N. Bernaerts
+# 28/07/2014, V1.1 - Add high, low & stop input
 # ----------------------------------------------
 
 # generate speed to log
 case $1 in 
-  h) LOG_SPEED="HIGH";;
-  l) LOG_SPEED="LOW";; 
-  s) LOG_SPEED="STOP";; 
+  h | high) LOG_SPEED="HIGH";;
+  l | low)  LOG_SPEED="LOW";; 
+  s | stop) LOG_SPEED="STOP";; 
   *) LOG_SPEED="";; 
 esac
 
