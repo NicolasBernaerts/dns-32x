@@ -1,13 +1,16 @@
 #!/ffp/bin/sh
 # ----------------------------------------------
-# Retrieve dns-325 disk information
+# Retrieve dns-325 & dns-323 disk information
 #
 # Used by http://bernaerts.dyndns.org/nas/314-dns325-ffp7-snmp-supervise-temperature-case-hdd
+#
+# Needs smartmontools package to be installed
 #
 # Parameters : 
 #   $1 - disk reference (disk1 or disk2)
 #
 # 05/07/2014, V1.0 - Creation by N. Bernaerts 
+# 24/07/2014, V1.1 - Manage configuration with one disk only
 # ----------------------------------------------
 
 # select device according to parameter
@@ -15,12 +18,12 @@
 [ "$1" = "disk2" ] && DISK="/dev/sdb"
 
 # get disk information thru smartctl
-DISK_MODEL=`smartctl -i -d sat $DISK | grep "^Device Model" | sed 's/^.*:[ ]*\(.*\)$/\1/'`
-DISK_SERIAL=`smartctl -i -d sat $DISK | grep "^Serial Number" | sed 's/^.*:[ ]*\(.*\)$/\1/'`
-DISK_SIZE=`smartctl -i -d sat $DISK | grep "^User Capacity" | sed 's/^.*:[ ]*\(.*\)$/\1/'`
+DISK_MODEL=`smartctl -i --device=marvell $DISK | grep "^Device Model" | sed 's/^.*:[ ]*\(.*\)$/\1/'`
+DISK_SERIAL=`smartctl -i --device=marvell $DISK | grep "^Serial Number" | sed 's/^.*:[ ]*\(.*\)$/\1/'`
+DISK_SIZE=`smartctl -i --device=marvell $DISK | grep "^User Capacity" | sed 's/^.*:[ ]*\(.*\)$/\1/'`
 
 # generate information string
-DISK_INFO="model $DISK_MODEL, s/n $DISK_SERIAL, capacity $DISK_SIZE" 
+[ "$DISK_SIZE" = "" ] && DISK_INFO="No disk" || DISK_INFO="Model $DISK_MODEL, s/n $DISK_SERIAL, Capacity $DISK_SIZE"
 
 # print result
 echo "$DISK_INFO"
