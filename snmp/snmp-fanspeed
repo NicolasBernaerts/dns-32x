@@ -6,15 +6,11 @@
 #
 # Parameters : none
 #
-# 30/06/2014, V1.0 - Creation by N. Bernaerts 
+# 30/06/2014, V1.0 - Creation by N. Bernaerts
 # 02/07/2014, V1.1 - Deal with switch to auto mode
 # 14/07/2014, V1.2 - Change fan speed to 0..2
+# 18/07/2014, V1.3 - Change fan speed to stop, low & high
 # ----------------------------------------------
-
-# define display value for 3 states (stop, low & high)
-LEVEL_STOP="0"
-LEVEL_LOW="1"
-LEVEL_HIGH="2"
 
 # retrieve fan status from fanspeed command
 FAN_SPEED=`fanspeed g`
@@ -23,7 +19,7 @@ FAN_SPEED=`fanspeed g`
 if [ "$FAN_SPEED" = "stop" ]
 then
   # display stop level
-  echo $LEVEL_STOP
+  echo $FAN_SPEED
 
 # fan is supposed to rotate, get value from user.log
 else
@@ -33,3 +29,6 @@ else
   # return the value
   echo $LOG_SPEED
 fi
+
+# end
+exit 0
