@@ -12,7 +12,7 @@
 #   $1 - disk reference (disk1 or disk2)
 #
 # 05/07/2014, V1.0 - Creation by N. Bernaerts 
-# 24/07/2014, V1.1 - Manage configuration with one disk only
+# 24/07/2014, V1.1 - DNS-323 compatibility & one disk only configuration
 # ----------------------------------------------
 
 # select device according to parameter
