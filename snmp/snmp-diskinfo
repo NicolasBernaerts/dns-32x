@@ -2,7 +2,8 @@
 # ----------------------------------------------
 # Retrieve dns-325 & dns-323 disk information
 #
-# Used by http://bernaerts.dyndns.org/nas/314-dns325-ffp7-snmp-supervise-temperature-case-hdd
+# Used by http://bernaerts.dyndns.org/nas/71-dns325-ffp07/314-dns325-ffp7-snmp-supervise-temperature-case-hdd
+#     and http://bernaerts.dyndns.org/nas/72-dns323-ffp07/318-dns323-ffp7-snmp-supervise-temperature-case-hdd
 #
 # Depends on packages : 
 #   * smartmontools
@@ -24,7 +25,7 @@ DISK_SERIAL=`smartctl -i --device=marvell $DISK | grep "^Serial Number" | sed 's
 DISK_SIZE=`smartctl -i --device=marvell $DISK | grep "^User Capacity" | sed 's/^.*:[ ]*\(.*\)$/\1/'`
 
 # generate information string
-[ "$DISK_SIZE" = "" ] && DISK_INFO="No disk" || DISK_INFO="Model $DISK_MODEL, s/n $DISK_SERIAL, Capacity $DISK_SIZE"
+[ "$DISK_SIZE" = "" ] && DISK_INFO="No disk" || DISK_INFO="Model $DISK_MODEL, S/n $DISK_SERIAL, Capacity $DISK_SIZE"
 
 # print result
 echo "$DISK_INFO"
