@@ -1,0 +1,74 @@
+config_dns32x_temperature() {
+  # define display value for 3 fan states (stop, low & high)
+  FAN_STOP="20"
+  FAN_LOW="22"
+  FAN_HIGH="24"
+
+  # get nas name
+  NAS_IP=`hostname`
+
+  # get values from result
+  VALUE_INFO_DISK1=`snmp-diskinfo disk1`
+  VALUE_INFO_DISK2=`snmp-diskinfo disk2`
+
+  # NAS general infos
+  echo "host_name $NAS_IP"
+  echo "graph_title Temperature & Fan speed ($NAS_IP)"
+  echo "graph_vlabel Degree Celsius"
+  echo "graph_category temperature"
+  echo "graph_info Temperature Levels & Fan speed"
+  echo "graph_args --lower-limit $FAN_STOP --rigid"
+
+  # fan speed
+  echo "fan.info Fan speed"
+  echo "fan.label Fan"
+  echo "fan.colour c0c0c0"
+  echo "fan.draw AREA"
+
+  # internal temperature
+  echo "case.label Internal case"
+  echo "case.colour 00ff00"
+  echo "case.info Case internal sensor"
+
+  # disk1 temperature
+  echo "disk1.label Disk 1"
+  echo "disk1.colour 0000ff"
+  echo "disk1.info HDD sensor, $VALUE_INFO_DISK1"
+
+  # disk2 temperature
+  echo "disk2.label Disk 2"
+  echo "disk2.colour ff00ff"
+  echo "disk2.info HDD sensor, $VALUE_INFO_DISK2"
+
+}
+fetch_dns32x_temperature() {
+  # define display value for 3 fan states (stop, low & high)
+  FAN_STOP="20"
+  FAN_LOW="22"
+  FAN_HIGH="24"
+
+  # get nas name
+  NAS_IP=`hostname`
+
+  # get values from result
+  VALUE_FAN=`snmp-fanspeed`
+  VALUE_TEMP_CASE=`snmp-temperature internal`
+  VALUE_TEMP_DISK1=`snmp-temperature disk1`
+  VALUE_TEMP_DISK2=`snmp-temperature disk2`
+  VALUE_INFO_DISK1=`snmp-diskinfo disk1`
+  VALUE_INFO_DISK2=`snmp-diskinfo disk2`
+
+  # publish fan speed
+  case $VALUE_FAN in
+    stop)   echo "fan.value $FAN_STOP" ;;
+    rotate) echo "fan.value $FAN_LOW" ;;
+    low)    echo "fan.value $FAN_LOW" ;;
+    high)   echo "fan.value $FAN_HIGH" ;;
+    *)      echo "fan.value U" ;;
+  esac
+
+  # publish temperature levels
+  echo "case.value $VALUE_TEMP_CASE"
+  echo "disk1.value $VALUE_TEMP_DISK1"
+  echo "disk2.value $VALUE_TEMP_DISK2"
+}
