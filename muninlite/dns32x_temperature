@@ -1,3 +1,24 @@
+# ----------------------------------------------
+# Muninlite plugin for DNS-323 and DNS-325
+# 
+# Used to supervise :
+#  * fan speed
+#  * case temperature
+#  * hdd temperature
+#
+# This script need the following scripts to run :
+#  * smartctl
+#  * fanspeed (DNS-325 only)
+#  * snmp-fanspeed
+#  * snmp-temperature (specific to each device)
+#  * snmp-diskinfo
+# For more info to install these scripts, see :
+#  * DNS-323 : http://bernaerts.dyndns.org/nas/72-dns-323-ffp07/318-dns323-ffp7-snmp-supervise-temperature-case-hdd
+#  * DNS-325 :  http://bernaerts.dyndns.org/nas/71-dns325-ffp07/314-dns325-ffp7-snmp-supervise-temperature-case-hdd
+#
+# 30/07/2014, V1.0 - Creation by N. Bernaerts
+# ----------------------------------------------
+
 config_dns32x_temperature() {
   # define display value for 3 fan states (stop, low & high)
   FAN_STOP="20"
