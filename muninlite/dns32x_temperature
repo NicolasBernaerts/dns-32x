@@ -6,15 +6,16 @@
 #  * case temperature
 #  * hdd temperature
 #
-# This script need the following scripts to run :
+# This script needs the following utilities to run :
 #  * smartctl
 #  * fanspeed (DNS-325 only)
 #  * snmp-fanspeed
-#  * snmp-temperature (specific to each device)
+#  * snmp-temperature
 #  * snmp-diskinfo
-# For more info to install these scripts, see :
+#
+# To install these utilities, please check :
 #  * DNS-323 : http://bernaerts.dyndns.org/nas/72-dns-323-ffp07/318-dns323-ffp7-snmp-supervise-temperature-case-hdd
-#  * DNS-325 :  http://bernaerts.dyndns.org/nas/71-dns325-ffp07/314-dns325-ffp7-snmp-supervise-temperature-case-hdd
+#  * DNS-325 :http://bernaerts.dyndns.org/nas/71-dns325-ffp07/314-dns325-ffp7-snmp-supervise-temperature-case-hdd
 #
 # 30/07/2014, V1.0 - Creation by N. Bernaerts
 # ----------------------------------------------
