@@ -40,7 +40,7 @@ if [ "$1" = "config" ]; then
 
   # NAS general infos
   echo "host_name $NAS_IP"
-  echo "graph_title Temperature & Fan speed ($NAS_IP)"
+  echo "graph_title Temperature & Fan speed"
   echo "graph_vlabel Degree Celsius"
   echo "graph_category temperature"
   echo "graph_info Temperature Levels & Fan speed"
