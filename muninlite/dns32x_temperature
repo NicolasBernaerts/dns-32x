@@ -20,15 +20,20 @@
 # 30/07/2014, V1.0 - Creation by N. Bernaerts
 # ----------------------------------------------
 
-config_dns32x_temperature() {
-  # define display value for 3 fan states (stop, low & high)
-  FAN_STOP="20"
-  FAN_LOW="22"
-  FAN_HIGH="24"
+# define display value for 3 fan states (stop, low & high)
+FAN_STOP="20"
+FAN_LOW="22"
+FAN_HIGH="24"
 
-  # get nas name
-  NAS_IP=`hostname`
+# get nas name
+NAS_IP=`hostname`
 
+# -------------------------------------------------------
+# Handle configuration call
+# -------------------------------------------------------
+
+# config : read node configuration
+if [ "$1" = "config" ]; then
   # get values from result
   VALUE_INFO_DISK1=`snmp-diskinfo disk1`
   VALUE_INFO_DISK2=`snmp-diskinfo disk2`
@@ -62,16 +67,12 @@ config_dns32x_temperature() {
   echo "disk2.colour ff00ff"
   echo "disk2.info HDD sensor, $VALUE_INFO_DISK2"
 
-}
-fetch_dns32x_temperature() {
-  # define display value for 3 fan states (stop, low & high)
-  FAN_STOP="20"
-  FAN_LOW="22"
-  FAN_HIGH="24"
+# -------------------------------------------------------
+# Handle data read call
+# -------------------------------------------------------
 
-  # get nas name
-  NAS_IP=`hostname`
-
+# normal case : read temperatures
+else
   # get values from result
   VALUE_FAN=`snmp-fanspeed`
   VALUE_TEMP_CASE=`snmp-temperature internal`
@@ -93,4 +94,5 @@ fetch_dns32x_temperature() {
   echo "case.value $VALUE_TEMP_CASE"
   echo "disk1.value $VALUE_TEMP_DISK1"
   echo "disk2.value $VALUE_TEMP_DISK2"
-}
+
+fi
