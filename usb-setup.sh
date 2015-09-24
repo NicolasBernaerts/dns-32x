@@ -5,7 +5,8 @@
 # Called by fun_plug to prepare USB key execution environment
 # If everything is ok, fun_plug will run from the USB key
 #
-# 05/09/2012 - V1.0 by Nicolas Bernaerts
+# 05/09/2012 - V1.0 creation by Nicolas Bernaerts
+# 24/09/2015 - V1.1 add 60s loop to wait for USB key mount
 
 # Set default path
 PATH=/usr/sbin:/sbin:/usr/bin:/bin
@@ -16,20 +17,29 @@ FFP_HD="/mnt/HD/HD_a2"
 FFP_USB="/mnt/USB/HD_c1"
 BCK_FLAG=${FFP_USB}/ffp/home/root/backup.do
 
-# Check if a USB removable disk has been detected. If not, exit
-if [ "$CONTINUE" -eq 1 ]; then
-  # get the USB key partition
+MOUNT_WAIT=0
+while [ ${MOUNT_WAIT} -lt 60 ]
+do
+  # wait for 5 seconds
+  sleep 5
+
+  # check if USB key is mounted
   USB_PARTITION=`df | grep "${FFP_USB}" | sed 's/^\([a-z0-9\/]*\).*$/\1/g'`
 
-  # if partition has been mounted, remount it with noatime, else exit
-  if [ -z "${USB_PARTITION}" ]; then
-    CONTINUE=0
-    echo "ERROR - USB device has not been detected as Mass Storage"
-  else
-    umount ${USB_PARTITION}
-    mount ${USB_PARTITION} -t ext2 ${FFP_USB} -o noatime 2>/dev/null
-    echo "USB - USB disk mounted under ${FFP_USB}"
-  fi
+  # if usb key not mounted, add 5 seconds, else over
+  [ -z "${USB_PARTITION}" ] && let MOUNT_WAIT=MOUNT_WAIT+5 || MOUNT_WAIT=60
+done
+
+# If a USB removable disk has not been mounted,
+if [ -z "${USB_PARTITION}" ]; then
+  CONTINUE=0
+  echo "ERROR - USB device has not been detected as Mass Storage"
+
+# else, remount it with noatime option
+else
+  umount ${USB_PARTITION}
+  mount ${USB_PARTITION} -t ext2 ${FFP_USB} -o noatime 2>/dev/null
+  echo "USB - USB disk mounted under ${FFP_USB}"
 fi
 
 # Check presence of ffp directory at the USB key root. If not present, exit
