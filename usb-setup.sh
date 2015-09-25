@@ -6,7 +6,7 @@
 # If everything is ok, fun_plug will run from the USB key
 #
 # 05/09/2012 - V1.0 creation by Nicolas Bernaerts
-# 24/09/2015 - V1.1 add 60s loop to wait for USB key mount
+# 24/09/2015 - V1.1 add 60s loop to wait for USB key mount (thanks to Albirew report)
 
 # Set default path
 PATH=/usr/sbin:/sbin:/usr/bin:/bin
