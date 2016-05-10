@@ -30,7 +30,7 @@ btsync_start()
 btsync_stop()
 {
   # kill running instance from PID
-  kill `cat $BTSYNC_PID`
+  kill $(cat $BTSYNC_PID)
 
   # delete PID file
   rm $BTSYNC_PID
@@ -39,7 +39,7 @@ btsync_stop()
 btsync_restart()
 {
   # kill running instance from PID
-  kill `cat $BTSYNC_PID`
+  kill $(cat $BTSYNC_PID)
 
   # delete PID file
   rm $BTSYNC_PID
