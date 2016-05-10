@@ -13,7 +13,7 @@
 # ----------------------------------------------
 
 # retrieve fan status from fanspeed command
-FAN_SPEED=`fanspeed g`
+FAN_SPEED=$(fanspeed g)
 
 # if fan is not rotating
 if [ "$FAN_SPEED" = "stop" ]
@@ -24,7 +24,7 @@ then
 # fan is supposed to rotate, get value from user.log
 else
   # retrieve last fan speed change in /var/log/user.log
-  LOG_SPEED=`cat /var/log/user.log | grep "Set Fan Speed" | tail -n 1 | sed 's/^.*"\([^"]*\)".*$/\1/g' | tr '[:upper:]' '[:lower:]'`
+  LOG_SPEED=$(cat /var/log/user.log | grep "Set Fan Speed" | tail -n 1 | sed 's/^.*"\([^"]*\)".*$/\1/g' | tr '[:upper:]' '[:lower:]')
 
   # return the value
   echo $LOG_SPEED
