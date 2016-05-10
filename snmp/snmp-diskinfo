@@ -20,9 +20,9 @@
 [ "$1" = "disk2" ] && DISK="/dev/sdb"
 
 # get disk information thru smartctl
-DISK_MODEL=`smartctl -i --device=marvell $DISK | grep "^Device Model" | sed 's/^.*:[ ]*\(.*\)$/\1/'`
-DISK_SERIAL=`smartctl -i --device=marvell $DISK | grep "^Serial Number" | sed 's/^.*:[ ]*\(.*\)$/\1/'`
-DISK_SIZE=`smartctl -i --device=marvell $DISK | grep "^User Capacity" | sed 's/^.*:[ ]*\(.*\)$/\1/'`
+DISK_MODEL=$(smartctl -i --device=marvell $DISK | grep "^Device Model" | sed 's/^.*:[ ]*\(.*\)$/\1/')
+DISK_SERIAL=$(smartctl -i --device=marvell $DISK | grep "^Serial Number" | sed 's/^.*:[ ]*\(.*\)$/\1/')
+DISK_SIZE=$(smartctl -i --device=marvell $DISK | grep "^User Capacity" | sed 's/^.*:[ ]*\(.*\)$/\1/')
 
 # generate information string
 [ "$DISK_SIZE" = "" ] && DISK_INFO="No disk" || DISK_INFO="Model $DISK_MODEL, S/n $DISK_SERIAL, Capacity $DISK_SIZE"
