@@ -25,8 +25,8 @@ esac
 # if a speed change has to be logged
 if [ "$LOG_SPEED" != "" ]; then
   # generate log data
-  LOG_TIME=`date +"%b %d %H:%M:%S"`
-  LOG_HOST=`hostname`
+  LOG_TIME=$(date +"%b %d %H:%M:%S")
+  LOG_HOST=$(hostname)
 
   # log action
   echo "$LOG_TIME $LOG_HOST fanspeed: Set Fan Speed To \"$LOG_SPEED\"." >> /var/log/user.log
