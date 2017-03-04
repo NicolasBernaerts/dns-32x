@@ -1,0 +1,59 @@
+#!/ffp/bin/bash
+# ---------------------------------------------------
+#  /ffp/sbin/dashbutton-goodnight
+#
+#  Infinite loop to detect a dash button activation
+#   and trigger a telegram notification
+#
+#  Revision history :
+#    20/01/2017, V1.0 - Creation
+# ---------------------------------------------------
+
+# set PATH
+PATH="/ffp/sbin:/usr/sbin:/ffp/bin:/usr/bin:/bin"
+
+# dash button IP
+DASH_IP="$1"
+
+# loop to detect 
+while true
+do
+  # detect button on LAN
+  DETECTED=$(ping -w 1 "${DASH_IP}" 2>/dev/null | grep "time=")
+
+  # if detected, 
+  if [ "${DETECTED}" != "" ]
+  then
+    # display detection
+    echo "Dash button ${DASH_IP} detected"
+
+    # ---------------------
+    #   Quote of the day
+    # ---------------------
+
+    TITLE="Pensée du soir"
+
+    # get quote of the day
+    wget --quiet -O - http://www.mon-poeme.fr/citation-du-jour/ | sed -n '/<q>/,$p' | sed '/div>/q' > /tmp/quote.html
+
+    # extract quote and author
+    QUOTE=$(cat /tmp/quote.html | head -n 1 | sed "s/^.*<q>\(.*\)<\/q>.*$/\1/")
+    AUTHOR=$(cat /tmp/quote.html | grep "Citation" | head -n 1 | sed "s/^.*Citation de \(.*\)<\/p>.*$/\1/" | sed "s/<[^>]*>//g" | sed "s/ ;/,/g")
+
+    # send quote
+    telegram-notify --title "${TITLE}" --text "${QUOTE}\n\n_${AUTHOR}_"
+
+    # ---------------------
+    #  Good night message
+    # ---------------------
+
+    TITLE="Bonne nuit ..."
+    TEXT="Je suis couché.\nA demain.\n\n_Papa_"
+
+    # send message
+    telegram-notify --title "${TITLE}" --text "${TEXT}"
+
+    # wait for 1 mn
+    sleep 60
+  fi
+done
