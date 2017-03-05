@@ -1,0 +1,68 @@
+#!/ffp/bin/bash
+# ---------------------------------------------------
+#  /ffp/sbin/dashbutton
+#
+#  Infinite loop to detect a dash button activation
+#   and trigger an action script
+#
+#  Revision history :
+#    20/01/2017, V1.0 - Creation
+#    04/03/2017, V1.1 - Add parameters
+#                       and MAC address detection
+# ---------------------------------------------------
+
+# if no argument, display help
+if [ $# -eq 0 ] 
+then
+  echo "Tool to detect a dash button press and trigger an associated action."
+  echo "One of these 2 parameters is compulsory :"
+  echo "  --mac-address <mac-address>       MAC address of dash button"
+  echo "  --ip-address <ip-address>         IP address of dash button"
+  echo "Other parameters are :"
+  echo "  --net-interface <name>            Name of local network interface (compulsory with MAC address)"
+  echo "  --action <script-name>            Script to run when dash button detected (compulsory)"
+  exit
+fi
+
+# loop to retrieve arguments
+while test $# -gt 0
+do
+  case "$1" in
+    "--mac-address") shift; MAC_ADDRESS="$1"; shift; ;;
+    "--net-interface") shift; NET_INTERFACE="$1"; shift; ;;
+    "--ip-address") shift; IP_ADDRESS="$1"; shift; ;;
+    "--action") shift; SCRIPT_ACTION="$1"; shift; ;;
+    *) shift; ;;
+  esac
+done
+
+# test parameters
+[ "${MAC_ADDRESS}" = "" -a "${IP_ADDRESS}" = "" ] && { echo "You should provide either MAC address (--mac-adddress) or IP address (--ip-address) of dash button"; exit 1; }
+[ "${MAC_ADDRESS}" != "" -a "${NET_INTERFACE}" = "" ] && { echo "You should provide a network interface (--net-interface) name for MAC address detection"; exit 1; }
+[ "${SCRIPT_ACTION}" = "" ] && { echo "You should provide a script to run (--action) when dash button is pressed"; exit 1; }
+
+# set PATH
+PATH="/ffp/sbin:/usr/sbin:/ffp/bin:/usr/bin:/bin"
+
+# if network interface given, detect net mask
+[ "${NET_INTERFACE}" != "" ] && NET_MASK=$(ip -o -f inet addr show ${NET_INTERFACE} | sed "s/^.*inet[ ]*\([0-9.]*\/[0-9]*\).*$/\1/")
+
+# loop to detect 
+while true
+do
+  # detect button on LAN
+  [ "${MAC_ADDRESS}" != "" ]  && DETECTED=$(nmap -sn ${NET_MASK} | grep "${MAC_ADDRESS}") || DETECTED=$(ping -w 1 "${IP_ADDRESS}" 2>/dev/null | grep "time=")
+
+  # if detected, 
+  if [ "${DETECTED}" != "" ]
+  then
+    # display detection
+    echo "Dash button detected"
+
+    # run action script
+    ${SCRIPT_ACTION}
+
+    # wait for 1 mn
+    sleep 60
+  fi
+done
