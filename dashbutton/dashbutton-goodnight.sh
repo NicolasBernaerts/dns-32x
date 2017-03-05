@@ -7,10 +7,9 @@
 
 name="dashbutton-goodnight"
 command="/ffp/sbin/$name"
-
-dashbutton_flags="192.168.1.80"
-
 start_cmd="dashbutton_start"
+
+dashbutton_goodnight_flags="192.168.1.80"
 
 # start dash button detection script as a background process
 dashbutton_start()
