@@ -25,6 +25,7 @@ rsyncd_start()
   fi
 
   echo "Starting /ffp/bin/rsync $rsync_flags"
+  rm $pid_file
   /ffp/bin/rsync $rsync_flags
 }
 
