@@ -37,7 +37,7 @@ do
 done
 
 # check tools
-command -v tcpdump >/dev/null 2>&1 || { echo "tcpdump not installed. please run # slacker -a tcpdump"; exit 1; }
+command -v tcpdump >/dev/null 2>&1 || { echo "[error] tcpdump not installed. please run # slacker -a tcpdump"; exit 1; }
 
 # test parameters
 [ "${MAC_ADDRESS}" = "" -a "${IP_ADDRESS}" = "" ] && { echo "You should provide either MAC address (--mac-adddress) or IP address (--ip-address) of dash button"; exit 1; }
