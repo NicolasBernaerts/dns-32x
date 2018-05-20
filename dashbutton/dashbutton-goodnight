@@ -10,7 +10,7 @@ TITLE="Pensée du soir"
 wget --quiet --header="Accept: text/html" --user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:21.0) Gecko/20100101 Firefox/51.0" -O - http://www.mon-poeme.fr/citation-du-jour/ | sed -n '/<q>/,$p' | sed '/div>/q' > /tmp/quote.html
 
 # extract quote and author
-QUOTE=$(cat /tmp/quote.html | head -n 1 | sed "s/^.*<q>\(.*\)<\/q>.*$/\1/")
+QUOTE=$(cat /tmp/quote.html | head -n 1 | sed "s/^.*<q>\(.*\)<\/q>.*$/\1/" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 AUTHOR=$(cat /tmp/quote.html | grep "Citation" | head -n 1 | sed "s/^.*Citation de \(.*\)<\/p>.*$/\1/" | sed "s/<[^>]*>//g" | sed "s/ ;/,/g")
 
 # send quote
