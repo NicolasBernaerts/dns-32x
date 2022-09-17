@@ -1,0 +1,56 @@
+#!/ffp/bin/bash
+# ----------------------------------------------
+# Retrieve dns-323 temperature sensor values for internal, disk1 and disk2
+#
+# Used by http://bernaerts.dyndns.org/nas/72-dns323-ffp07/318-dns323-ffp7-snmp-supervise-temperature-case-hdd
+#
+# Depends on compilation of smartmontools
+#
+# Parameters :
+#   $1 - sensor type (internal, disk1 or disk2)
+#
+# 24/07/2014, V1.0 - Creation by N. Bernaerts
+# 29/07/2014, V1.1 - Handle Fahrenheit & celcius case temperature
+# ----------------------------------------------
+
+# set linefeed separator
+IFS='
+'
+
+# read temperature for $1
+case $1 in
+  # read case internal temperature
+  internal)
+    # read temperature
+    ARR_TEMP=(`temperature g 0`)
+    FAHRENHEIT=`echo ${ARR_TEMP[0]} | grep Fahrenheit`
+    RESULT=`echo ${ARR_TEMP[1]} | sed 's/^.* = \([0-9]*\).*$/\1/g'`
+    
+    # if result is in Farenheit, convert it to celcius
+    if [ "$RESULT" != "" ]; then
+      RESULT=`expr $RESULT - 32`
+      RESULT=`expr $RESULT \* 5 / 9`
+    fi
+    
+    # display temperature in celcius
+    echo $RESULT
+    ;;
+
+  # read disk1 (/dev/sda) temperature
+  disk1)
+    RESULT=`smartctl -A --device=marvell /dev/sda | grep "^194.*" | sed 's/^.*- *\([0-9]*\).*$/\1/g'`
+    [ "$RESULT" = "" ] && echo "U" || echo $RESULT
+    ;;
+
+  # read disk2 (/dev/sdb) temperature
+  disk2)
+    RESULT=`smartctl -A --device=marvell /dev/sdb | grep "^194.*" | sed 's/^.*- *\([0-9]*\).*$/\1/g'`
+    [ "$RESULT" = "" ] && echo "U" || echo $RESULT
+    ;;
+
+  # default : nothing to do
+  *)
+esac
+
+# end
+exit 0
