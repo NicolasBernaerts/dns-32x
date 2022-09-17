@@ -1,0 +1,5 @@
+# /etc/modules
+# Load required modules
+gpio-fan
+kirkwood_thermal
+btrfs
