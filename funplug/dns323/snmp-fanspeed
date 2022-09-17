@@ -1,0 +1,22 @@
+
+#!/ffp/bin/sh
+# ----------------------------------------------
+# Retrieve dns-323 fan status
+#
+# Used by http://bernaerts.dyndns.org/nas/...
+#
+# Parameters : none
+#
+# Return : stop or rotate
+#
+# 24/07/2014, V1.0 - Creation by N. Bernaerts
+# ----------------------------------------------
+
+# retrieve fan status from fanspeed command
+FAN_SPEED=`fanspeed g`
+
+# display status
+[ "$FAN_SPEED" = "0" ] && echo "stop" || echo "rotate"
+
+# end
+exit 0
