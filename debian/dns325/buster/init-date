@@ -1,11 +1,10 @@
-    #!/bin/bash
-    # ---------------------------------------------------
-    #   Date initialisation at startup
-    #
-    # Revision history :
-    #   10/01/2021, V1.0 - Creation by N. Bernaerts 
-    # ---------------------------------------------------
-     
-    # update current time from google site
-    date -s "$(wget -qSO- --max-redirect=0 google.com 2>&1 | grep Date: | cut -d' ' -f5-8)Z"
-
+#!/bin/bash
+# ---------------------------------------------------
+#   Date initialisation at startup
+#
+# Revision history :
+#   10/01/2021, V1.0 - Creation by N. Bernaerts 
+# ---------------------------------------------------
+ 
+# update current time from google site
+date -s "$(wget -qSO- --max-redirect=0 google.com 2>&1 | grep Date: | cut -d' ' -f5-8)Z"
