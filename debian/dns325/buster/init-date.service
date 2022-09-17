@@ -1,0 +1,14 @@
+[Unit]
+Description=system date initialisation
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/init-date
+Restart=on-failure
+TimeoutStopSec=1
+ 
+[Install]
+WantedBy=multi-user.target
+
