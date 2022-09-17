@@ -1,0 +1,17 @@
+# Thermal management
+gpio-fan
+kirkwood_thermal
+# SATA
+ehci_orion
+sata_mv
+# Ethernet
+mv643xx_eth
+marvell
+mvmdio
+ipv6
+# Power / USB buttons
+evdev
+gpio_keys
+# USB disks
+sd_mod
+usb_storage
